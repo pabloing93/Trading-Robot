@@ -1,2 +1,10 @@
 1) pip install pandas, matplotlib, numpy, yfinance, beautifulsoup4
 2) Update user_agent in global.py
+
+
+
+Github commands
+How to make a Push
+git add .
+git commit -m "commit name"
+git push origin dev
