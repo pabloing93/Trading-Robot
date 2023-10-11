@@ -1,0 +1,2 @@
+1) pip install pandas, matplotlib, numpy, yfinance, beautifulsoup4
+2) Update user_agent in global.py
