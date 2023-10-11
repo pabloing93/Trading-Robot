@@ -8,3 +8,7 @@ How to make a Push
 git add .
 git commit -m "commit name"
 git push origin dev
+
+
+How to make a pull
+git pull origin dev
