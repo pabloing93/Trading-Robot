@@ -4,6 +4,6 @@ import matplotlib as ml
 from functions import *
 
 print('Hello Data Science!')
-get_bt_data()
+# get_bt_data()
 
 print("Gracias Pablo!")

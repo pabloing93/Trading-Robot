@@ -1,14 +1,11 @@
 1) pip install pandas, matplotlib, numpy, yfinance, beautifulsoup4
 2) Update user_agent in global.py
 
-
+How to make a pull
+1) git pull origin dev
 
 Github commands
 How to make a Push
-git add .
-git commit -m "commit name"
-git push origin dev
-
-
-How to make a pull
-git pull origin dev
+1) git add .
+2) git commit -m "commit name"
+3) git push origin dev
