@@ -1,9 +1,10 @@
-import pandas as pd
-import numpy as np
-import matplotlib as ml
+# import numpy as np
+# import matplotlib as ml
 from functions import *
 
-print('Hello Data Science!')
-# get_bt_data()
+df_bitcoin = importar_base_bitcoin()
+# print(df_bitcoin)
 
-print("Gracias Pablo!")
+precio, tendencia = extraer_tendencias("https://coinmarketcap.com/", "BTC")
+# print("precio:", precio)
+# print("tendencia:", tendencia)
