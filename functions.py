@@ -12,7 +12,7 @@ def importar_base_bitcoin():
   return df_bitcoin
 
 #Getting tendencies from CoinMarket
-def extraer_tendencias(url, simbol: str) -> tuple:
+def extraer_tendencias(simbol: str) -> tuple:
 
   def get_status(row: str) -> str:
     alta_icon = "icon-Caret-up"
@@ -25,22 +25,36 @@ def extraer_tendencias(url, simbol: str) -> tuple:
   def str_to_float(price: str) -> float:
     return float(price.replace("$", "").replace(",", ""))
 
+  #1) Obtengo el html de la web
   headers = { "User-Agent": user_agent }
+  url = "https://coinmarketcap.com/"
   request = requests.get(url, headers)
   web_content = BeautifulSoup(request.content, features="lxml")
   table = web_content.find("table", class_="cmc-table")
+
+  #2) obtengo la tabla para acceder al nombre de las columnas que me interesan y su posición
+  columnas_interes = [ "Name", "Price", "1h %" ]
+  position = {}
+  for index, columna in enumerate(list(table.thead.tr.find_all("th"))):
+    if(columna.find('p')):
+      texto_p = columna.p.text.strip()
+      for columna_interes in columnas_interes:
+        if columna_interes == texto_p:
+          position[texto_p] = index
+
+  #3) obtengo la fila de la moneda que me interesa
   btc_row = []
   for tr in table.tbody:
     p_tags = tr.find_all("p")
     for p in p_tags:
       if(p.string == simbol):
         btc_row.append(tr)
-  status_icon_column = str(list(btc_row[0])[4])
-  table_stringed = io.StringIO(str(table))
-  df_table = pandas.read_html(table_stringed)[0]
-  df = df_table[["Name", "Price", "1h %"]]
+
+  # name = list(btc_row[0])[position['Name']].p.text
+  #4) busco en la fila de la moneda los valores de las columnas que me interesan accediendo a su posicion ya conocida
+  price_string = str(list(btc_row[0])[position['Price']].span.text) #acá obtengo el valor del precio y lo conviero en string
+  price = str_to_float(price_string)
+  status_icon_column = str(list(btc_row[0])[position['1h %']]) #de esta fila me interesa el row completo y lo convierto en string
   status = get_status(status_icon_column)
-  df_bitcoin_row = df.loc[df["Name"] == "BitcoinBTC"].copy()
-  df_bitcoin_row["Status"] = status
-  price = str_to_float(str(df_bitcoin_row["Price"][0]))
+
   return ( price, status )
