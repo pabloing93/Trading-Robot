@@ -60,3 +60,16 @@ def extraer_tendencias(simbol: str) -> tuple:
   tendencie = get_tendencie(tendencie_string) #limpio el dato
 
   return ( price, tendencie )
+
+def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str:
+  case_1 = (current_price >= mean_price) & tendencie == 'baja'
+  case_2 = (current_price < mean_price) & tendencie == 'alta'
+
+  if (case_1):
+    decision = 'Vender'
+  elif (case_2):
+    decision = 'Comprar'
+  else:
+    decision = ""
+
+  return decision 
