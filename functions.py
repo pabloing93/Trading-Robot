@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 from global_data import user_agent
 import pandas
-import io
+import matplotlib.pyplot as matplot
 
 #Getting Yahoo! Finance Bitcoin History Data
 def importar_base_bitcoin():
@@ -73,3 +73,20 @@ def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str
     decision = ""
 
   return decision 
+
+def visualizacion(dataframe: pandas, mean: float, decision: str):
+ #los parámetros funcionan por copia
+ dataframe['Promedio'] = mean
+ print(dataframe)
+ #configurar tamaño 16x5
+ #Adicionar un título al gráfico 
+ #Usando el método plot() dibujar una línea en el gráfico con los datos de Datetime y Close
+ #usando el método plot() dibujar una linea en el grafico con los datos Datetime y Promedio
+ #Mostrar la decision con el metodo annotate()
+ show()
+
+
+df_bitcoin = importar_base_bitcoin()
+media_bitcoin = 20000.98
+decision = 'Comprar'
+visualizacion(df_bitcoin, media_bitcoin, decision)
