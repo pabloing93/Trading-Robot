@@ -62,8 +62,17 @@ def extraer_tendencias(simbol: str) -> tuple:
 
   return ( price, tendencie )
 
-def limpieza_datos(dataframe: pandas) -> tuple:
+def limpieza_datos(df_bitcoins: pandas) -> tuple:
+
+  def draw_boxplot(title: str, dataframe: pandas):
+    plt.figure(figsize=(8, 6))
+    plt.title(title)
+    plt.boxplot(dataframe['Close'], vert=False)
+    plt.show()
   
+  # Hago una copia del dataframe original
+  dataframe = df_bitcoins.copy()
+
   # Eliminar duplicados en el índice
   dataframe = dataframe[~dataframe.index.duplicated(keep='first')]
   
@@ -74,10 +83,7 @@ def limpieza_datos(dataframe: pandas) -> tuple:
   dataframe = dataframe[dataframe['Volume'] > 0]
   
   # Identificar y eliminar outliers en la columna "Close" usando un boxplot
-  plt.figure(figsize=(8, 6))
-  plt.boxplot(dataframe['Close'], vert=False)
-  plt.title('Boxplot de la columna "Close"')
-  plt.show()
+  # draw_boxplot('Boxplot de la columna "Close"', dataframe)
   
   Q1 = dataframe['Close'].quantile(0.25)
   Q3 = dataframe['Close'].quantile(0.75)
@@ -86,13 +92,14 @@ def limpieza_datos(dataframe: pandas) -> tuple:
   upper_limit = Q3 + 1.5 * IQR
   
   dataframe = dataframe[(dataframe['Close'] >= lower_limit) & (dataframe['Close'] <= upper_limit)]
+  # dataframe = dataframe[(dataframe['Close'] >= Q1) & (dataframe['Close'] <= Q3)]
+  
+  # draw_boxplot('Boxplot actualizado', dataframe)
 
   # Calcular el precio promedio (Close) de esta selección
   media_bitcoin = dataframe['Close'].mean()
 
   return (dataframe, media_bitcoin)
-  
-  # print("Limpieza de datos completada.")
 
 def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str:
   case_1 = (current_price >= mean_price) & (tendencie == 'baja')
@@ -107,7 +114,9 @@ def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str
 
   return decision 
 
-def visualizacion(dataframe: pandas, current_price: float, mean: float, decision: str):
+def visualizacion(df_bitcoin: pandas, current_price: float, mean: float, decision: str):
+  #hago una copia del DF original
+  dataframe = df_bitcoin.copy()
   #los parámetros funcionan por copia
   dataframe['Promedio'] = mean
   #  print(dataframe.describe())
