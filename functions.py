@@ -9,7 +9,7 @@ from datetime import datetime
 #Getting Yahoo! Finance Bitcoin History Data
 def importar_base_bitcoin():
   bitcoin = yfinance.Ticker("BTC-USD")
-  df_bitcoin = bitcoin.history(period="7d", interval="1m")
+  df_bitcoin = bitcoin.history(period="7d", interval="5m")
   return df_bitcoin
 
 #Getting tendencies from CoinMarket
@@ -62,6 +62,38 @@ def extraer_tendencias(simbol: str) -> tuple:
 
   return ( price, tendencie )
 
+def limpieza_datos(dataframe: pandas) -> tuple:
+  
+  # Eliminar duplicados en el índice
+  dataframe = dataframe[~dataframe.index.duplicated(keep='first')]
+  
+  # Buscar valores nulos en la columna "Close" y eliminarlos
+  dataframe.dropna(subset=['Close'], inplace=True)
+  
+  # Verificar que todos los registros tengan un Volume de transacción mayor a 0
+  dataframe = dataframe[dataframe['Volume'] > 0]
+  
+  # Identificar y eliminar outliers en la columna "Close" usando un boxplot
+  plt.figure(figsize=(8, 6))
+  plt.boxplot(dataframe['Close'], vert=False)
+  plt.title('Boxplot de la columna "Close"')
+  plt.show()
+  
+  Q1 = dataframe['Close'].quantile(0.25)
+  Q3 = dataframe['Close'].quantile(0.75)
+  IQR = Q3 - Q1
+  lower_limit = Q1 - 1.5 * IQR
+  upper_limit = Q3 + 1.5 * IQR
+  
+  dataframe = dataframe[(dataframe['Close'] >= lower_limit) & (dataframe['Close'] <= upper_limit)]
+
+  # Calcular el precio promedio (Close) de esta selección
+  media_bitcoin = dataframe['Close'].mean()
+
+  return (dataframe, media_bitcoin)
+  
+  # print("Limpieza de datos completada.")
+
 def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str:
   case_1 = (current_price >= mean_price) & (tendencie == 'baja')
   case_2 = (current_price < mean_price) & (tendencie == 'alta')
@@ -107,9 +139,3 @@ def visualizacion(dataframe: pandas, current_price: float, mean: float, decision
       xytext=(current_date, current_price+70)
     )
   plt.show()
-
-
-# df_bitcoin = importar_base_bitcoin()
-# media_bitcoin = 27000.98
-# decision = 'Vender'
-# visualizacion(df_bitcoin, media_bitcoin, decision)
