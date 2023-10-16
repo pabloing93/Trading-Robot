@@ -9,7 +9,7 @@ from datetime import datetime
 #Getting Yahoo! Finance Bitcoin History Data
 def importar_base_bitcoin():
   bitcoin = yfinance.Ticker("BTC-USD")
-  df_bitcoin = bitcoin.history(period="7d", interval="5m")
+  df_bitcoin = bitcoin.history(period="7d", interval="1m")
   return df_bitcoin
 
 #Getting tendencies from CoinMarket
@@ -63,8 +63,8 @@ def extraer_tendencias(simbol: str) -> tuple:
   return ( price, tendencie )
 
 def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str:
-  case_1 = (current_price >= mean_price) & tendencie == 'baja'
-  case_2 = (current_price < mean_price) & tendencie == 'alta'
+  case_1 = (current_price >= mean_price) & (tendencie == 'baja')
+  case_2 = (current_price < mean_price) & (tendencie == 'alta')
 
   if (case_1):
     decision = 'Vender'
@@ -75,7 +75,7 @@ def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str
 
   return decision 
 
-def visualizacion(dataframe: pandas, mean: float, decision: str):
+def visualizacion(dataframe: pandas, current_price: float, mean: float, decision: str):
   #los parámetros funcionan por copia
   dataframe['Promedio'] = mean
   #  print(dataframe.describe())
@@ -90,7 +90,6 @@ def visualizacion(dataframe: pandas, mean: float, decision: str):
   graph.set_ylabel('Precio de Cierre')
   #Mostrar la decision con el metodo annotate()
   current_date = dataframe.index[-1]
-  current_price = dataframe.iloc[-1]['Close']
   if (decision == 'Comprar'):
     plt.annotate(
       text = decision, 
