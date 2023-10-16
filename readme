@@ -1,4 +1,4 @@
-1) pip install pandas, matplotlib, numpy, yfinance, beautifulsoup4
+1) pip install pandas, matplotlib, numpy, yfinance, beautifulsoup4, ipython
 2) Update user_agent in global.py
 
 How to make a pull
