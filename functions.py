@@ -3,7 +3,8 @@ from bs4 import BeautifulSoup
 import requests
 from global_data import user_agent
 import pandas
-import matplotlib.pyplot as matplot
+import matplotlib.pyplot as plt
+from datetime import datetime
 
 #Getting Yahoo! Finance Bitcoin History Data
 def importar_base_bitcoin():
@@ -70,23 +71,46 @@ def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str
   elif (case_2):
     decision = 'Comprar'
   else:
-    decision = ""
+    decision = None
 
   return decision 
 
 def visualizacion(dataframe: pandas, mean: float, decision: str):
- #los parámetros funcionan por copia
- dataframe['Promedio'] = mean
- print(dataframe)
- #configurar tamaño 16x5
- #Adicionar un título al gráfico 
- #Usando el método plot() dibujar una línea en el gráfico con los datos de Datetime y Close
- #usando el método plot() dibujar una linea en el grafico con los datos Datetime y Promedio
- #Mostrar la decision con el metodo annotate()
- show()
+  #los parámetros funcionan por copia
+  dataframe['Promedio'] = mean
+  #  print(dataframe.describe())
+  #configurar tamaño 16x5
+  plt.rc('figure', figsize = (16,5))
+  #Usando el método plot() dibujar una línea en el gráfico con los datos de Datetime y Close
+  graph = dataframe['Close'].plot()
+  #usando el método plot() dibujar una linea en el grafico con los datos Datetime y Promedio
+  graph = dataframe['Promedio'].plot()
+  #Adicionar un título al gráfico 
+  graph.set_title('Bitcoin BTC YFinance', {'fontsize': 22})
+  graph.set_ylabel('Precio de Cierre')
+  #Mostrar la decision con el metodo annotate()
+  current_date = dataframe.index[-1]
+  current_price = dataframe.iloc[-1]['Close']
+  if (decision == 'Comprar'):
+    plt.annotate(
+      text = decision, 
+      horizontalalignment = 'center',
+      xy=(current_date, current_price), 
+      arrowprops={'facecolor': 'green'},
+      xytext=(current_date, current_price-100)
+    ) 
+  elif (decision == 'Vender'):
+    plt.annotate(
+      text = decision,
+      horizontalalignment = 'center',
+      xy=(current_date, current_price), 
+      arrowprops={'facecolor': 'red'},
+      xytext=(current_date, current_price+70)
+    )
+  plt.show()
 
 
-df_bitcoin = importar_base_bitcoin()
-media_bitcoin = 20000.98
-decision = 'Comprar'
-visualizacion(df_bitcoin, media_bitcoin, decision)
+# df_bitcoin = importar_base_bitcoin()
+# media_bitcoin = 27000.98
+# decision = 'Vender'
+# visualizacion(df_bitcoin, media_bitcoin, decision)
