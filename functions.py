@@ -4,7 +4,6 @@ import requests
 from global_data import user_agent
 import pandas
 import matplotlib.pyplot as plt
-from datetime import datetime
 
 #Getting Yahoo! Finance Bitcoin History Data
 def importar_base_bitcoin():
@@ -83,18 +82,14 @@ def limpieza_datos(df_bitcoins: pandas) -> tuple:
   dataframe = dataframe[dataframe['Volume'] > 0]
   
   # Identificar y eliminar outliers en la columna "Close" usando un boxplot
-  # draw_boxplot('Boxplot de la columna "Close"', dataframe)
+  # draw_boxplot('Boxplot de la columna "Close"', dataframe) #Método para graficar el boxplot
   
+  #Obtengo los valores de Close que se encuentren entre Q1 y Q3
   Q1 = dataframe['Close'].quantile(0.25)
   Q3 = dataframe['Close'].quantile(0.75)
-  IQR = Q3 - Q1
-  lower_limit = Q1 - 1.5 * IQR
-  upper_limit = Q3 + 1.5 * IQR
+  dataframe = dataframe[(dataframe['Close'] >= Q1) & (dataframe['Close'] <= Q3)]
   
-  dataframe = dataframe[(dataframe['Close'] >= lower_limit) & (dataframe['Close'] <= upper_limit)]
-  # dataframe = dataframe[(dataframe['Close'] >= Q1) & (dataframe['Close'] <= Q3)]
-  
-  # draw_boxplot('Boxplot actualizado', dataframe)
+  # draw_boxplot('Boxplot actualizado', dataframe) #Método para graficar el boxplot
 
   # Calcular el precio promedio (Close) de esta selección
   media_bitcoin = dataframe['Close'].mean()
@@ -102,6 +97,7 @@ def limpieza_datos(df_bitcoins: pandas) -> tuple:
   return (dataframe, media_bitcoin)
 
 def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str:
+  #Defino los casos de decisiones
   case_1 = (current_price >= mean_price) & (tendencie == 'baja')
   case_2 = (current_price < mean_price) & (tendencie == 'alta')
 
@@ -115,20 +111,20 @@ def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str
   return decision 
 
 def visualizacion(df_bitcoin: pandas, current_price: float, mean: float, decision: str):
-  #hago una copia del DF original
+  #Hago una copia del DF original
   dataframe = df_bitcoin.copy()
-  #los parámetros funcionan por copia
+  #Creo una columna nueva y cargo el valor de la media
   dataframe['Promedio'] = mean
-  #  print(dataframe.describe())
-  #configurar tamaño 16x5
+  #Configuro el tamaño del gráfico en 16x5
   plt.rc('figure', figsize = (16,5))
-  #Usando el método plot() dibujar una línea en el gráfico con los datos de Datetime y Close
+  #Dibujo el gráfico (Volumen,Datetime)
   graph = dataframe['Close'].plot()
-  #usando el método plot() dibujar una linea en el grafico con los datos Datetime y Promedio
+  #Dibujo la linea del promedio
   graph = dataframe['Promedio'].plot()
-  #Adicionar un título al gráfico 
+  #Seteo títulos al gráfico 
   graph.set_title('Bitcoin BTC YFinance', {'fontsize': 22})
   graph.set_ylabel('Precio de Cierre')
+  graph.set_xlabel('Fecha')
   #Mostrar la decision con el metodo annotate()
   current_date = dataframe.index[-1]
   if (decision == 'Comprar'):
