@@ -1,3 +1,4 @@
 #Ingnoring local folder
+/__pycache__
 my_tests.py
 alquiler.csv
