@@ -90,11 +90,11 @@ def limpieza_datos(df_bitcoins: pandas) -> tuple:
   dataframe = dataframe[(dataframe['Close'] >= Q1) & (dataframe['Close'] <= Q3)]
   
   # draw_boxplot('Boxplot actualizado', dataframe) #Método para graficar el boxplot
-
+  
   # Calcular el precio promedio (Close) de esta selección
   media_bitcoin = dataframe['Close'].mean()
 
-  return (dataframe, media_bitcoin)
+  return media_bitcoin
 
 def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str:
   #Defino los casos de decisiones
@@ -106,7 +106,7 @@ def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str
   elif (case_2):
     decision = 'Comprar'
   else:
-    decision = None
+    decision = 'Esperar'
 
   return decision 
 
@@ -131,9 +131,9 @@ def visualizacion(df_bitcoin: pandas, current_price: float, mean: float, decisio
     plt.annotate(
       text = decision, 
       horizontalalignment = 'center',
-      xy=(current_date, current_price), 
+      xy=(current_date, current_price),
       arrowprops={'facecolor': 'green'},
-      xytext=(current_date, current_price-100)
+      xytext=(current_date, current_price+100)
     ) 
   elif (decision == 'Vender'):
     plt.annotate(
@@ -141,6 +141,10 @@ def visualizacion(df_bitcoin: pandas, current_price: float, mean: float, decisio
       horizontalalignment = 'center',
       xy=(current_date, current_price), 
       arrowprops={'facecolor': 'red'},
-      xytext=(current_date, current_price+70)
+      xytext=(current_date, current_price+150)
     )
+  graph.legend(
+    [f'Bitcoin Price: {round(current_price, 2)}', f'Mean: {round(mean, 2)}'], 
+    loc='upper left',
+    title=f'Recomendacion: {decision}')
   plt.show()

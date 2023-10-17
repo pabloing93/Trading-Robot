@@ -9,9 +9,10 @@ while(True):
   #Con el método extraer_tendencias() Realizo webscraping para obtener informacion desde coinmarket
   precio, tendencia = extraer_tendencias("BTC")
   #Realizo una limpieza del dataframe de YFinance y obtengo la media
-  df_bitcoin, media_bitcoin = limpieza_datos(df_bitcoin)
+  media_bitcoin = limpieza_datos(df_bitcoin)
   #tomar_decision() me retorna un consejo según el precio actual, la tendencia y el valor de la media
   decision = tomar_desiciones(precio, media_bitcoin, tendencia)
   #visualizacion() muestra los resultados en un gráfico
   visualizacion(df_bitcoin, precio, media_bitcoin, decision)
+  print(precio, tendencia, media_bitcoin, decision)
   time.sleep(300)
