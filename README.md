@@ -148,11 +148,11 @@ def limpieza_datos(df_bitcoins: pandas) -> tuple:
 ```
 ### Data Original
 
-<img src="https://github.com/pabloing93/Trading-Robot/blob/dev/dara_original.jpg" alt="Gráfico Data Original">
+<img src="https://github.com/pabloing93/Trading-Robot/blob/master/dara_original.png" alt="Gráfico Data Original">
 
 ### Data Limpio
 
-<img src="https://github.com/pabloing93/Trading-Robot/blob/dev/data_limpio.jpg" alt="Gráfico Data Limpio">
+<img src="https://github.com/pabloing93/Trading-Robot/blob/master/dara_limpio.png" alt="Gráfico Data Limpio">
 
 
 En resumen, este código se encarga de asegurarse de que los datos relacionados con el precio de Bitcoin sean precisos y útiles para futuros análisis. Esto implica eliminar datos duplicados, nulos e inusuales, y calcular el precio promedio después de realizar estas limpiezas.
@@ -277,5 +277,5 @@ while(True):
   cont = cont + 1
   time.sleep(1)
 ```
-<img src="https://github.com/pabloing93/Trading-Robot/blob/dev/visualizacion_bitcoin.png" alt="Gráfico de ejemplo">
+<img src="https://github.com/pabloing93/Trading-Robot/blob/master/visualizacion_bitcoin.png" alt="Gráfico de ejemplo">
 
