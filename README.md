@@ -15,6 +15,8 @@ pandas es una biblioteca esencial para el análisis y manipulación de datos en 
 ### Matplotlib
 Matplotlib es una biblioteca de visualización de datos en Python, y pyplot es un módulo de matplotlib que permite crear gráficos y visualizaciones. 
 
+### yfinance
+yfinance es una biblioteca de Python que proporciona una interfaz sencilla para descargar datos financieros y de mercado desde Yahoo Finance. Con yfinance, puedes acceder a una amplia variedad de datos financieros, como precios de acciones, datos históricos, información sobre empresas, divisas, índices y más.
 ```python
 import yfinance
 from bs4 import BeautifulSoup
