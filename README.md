@@ -279,5 +279,5 @@ while(True):
   cont = cont + 1
   time.sleep(1)
 ```
-<img src="https://github.com/pabloing93/Trading-Robot/blob/master/visualizacion_bitcoin.png" alt="Gráfico de ejemplo">
+<img src="https://github.com/pabloing93/Trading-Robot/blob/master/visualizacion_bitcoins.png" alt="Gráfico de ejemplo">
 
