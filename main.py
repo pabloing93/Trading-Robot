@@ -2,27 +2,17 @@ from functions import *
 from IPython.display import clear_output
 import time
 
-# df_bitcoin = importar_base_bitcoin()
-# print(df_bitcoin)
-
-
-# precio, tendencia = extraer_tendencias("BTC")
-# print("precio:", precio)
-# print("tendencia:", tendencia)
-
-cont = 0
-
 while(True):
   clear_output()
-  print(f'REFRESH N°: {cont}\n')
+  #Con el método importar_base_bitcoin() obtengo un DataFrame desde Yahoo! Finance API
   df_bitcoin = importar_base_bitcoin()
+  #Con el método extraer_tendencias() Realizo webscraping para obtener informacion desde coinmarket
   precio, tendencia = extraer_tendencias("BTC")
-  print(f'Precio actual: {precio}\n')
-  print(f'Tendencia: {tendencia}\n')
-  # limpieza_datos()
-  media = 27000
-  decision = tomar_desiciones(precio, media, tendencia)
-  print(f'Decición: {decision}\n')
-  visualizacion(df_bitcoin, precio, media, decision)
-  cont = cont + 1
-  time.sleep(1)
+  #Realizo una limpieza del dataframe de YFinance y obtengo la media
+  media_bitcoin = limpieza_datos(df_bitcoin)
+  #tomar_decision() me retorna un consejo según el precio actual, la tendencia y el valor de la media
+  decision = tomar_desiciones(precio, media_bitcoin, tendencia)
+  #visualizacion() muestra los resultados en un gráfico
+  visualizacion(df_bitcoin, precio, media_bitcoin, decision)
+  print(precio, tendencia, media_bitcoin, decision)
+  time.sleep(300)
