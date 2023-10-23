@@ -150,7 +150,7 @@ def limpieza_datos(df_bitcoins: pandas) -> tuple:
 ```
 ### Data Original
 
-<img src="https://github.com/pabloing93/Trading-Robot/blob/master/dara_original.png" alt="Gráfico Data Original">
+<img src="https://github.com/pabloing93/Trading-Robot/blob/master/data_original.png" alt="Gráfico Data Original">
 
 ### Data Limpio
 
