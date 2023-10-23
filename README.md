@@ -3,16 +3,16 @@
 
 ## Configuracion del ambiente 📊
 
-BeautifulSoup (bs4)
+### BeautifulSoup (bs4)
 BeautifulSoup, o bs4, es una biblioteca utilizada para analizar y extraer información de páginas web en formato HTML y XML. Para instalarlo, puedes usar:
 
-Numpy
+### Numpy
 Numpy es una biblioteca fundamental para el procesamiento numérico en Python. Aunque no se mencionó en la descripción original, es una biblioteca comúnmente utilizada en proyectos de análisis de datos y finanzas. 
 
-Pandas
+### Pandas
 pandas es una biblioteca esencial para el análisis y manipulación de datos en Python. Se utiliza ampliamente en proyectos de análisis de datos financieros. 
 
-Matplotlib
+### Matplotlib
 Matplotlib es una biblioteca de visualización de datos en Python, y pyplot es un módulo de matplotlib que permite crear gráficos y visualizaciones. 
 
 ```python
