@@ -3,18 +3,20 @@
 
 ## Configuracion del ambiente 📊
 
-BeautifulSoup (bs4)
+### BeautifulSoup (bs4)
 BeautifulSoup, o bs4, es una biblioteca utilizada para analizar y extraer información de páginas web en formato HTML y XML. Para instalarlo, puedes usar:
 
-Numpy
+### Numpy
 Numpy es una biblioteca fundamental para el procesamiento numérico en Python. Aunque no se mencionó en la descripción original, es una biblioteca comúnmente utilizada en proyectos de análisis de datos y finanzas. 
 
-Pandas
+### Pandas
 pandas es una biblioteca esencial para el análisis y manipulación de datos en Python. Se utiliza ampliamente en proyectos de análisis de datos financieros. 
 
-Matplotlib
+### Matplotlib
 Matplotlib es una biblioteca de visualización de datos en Python, y pyplot es un módulo de matplotlib que permite crear gráficos y visualizaciones. 
 
+### yfinance
+yfinance es una biblioteca de Python que proporciona una interfaz sencilla para descargar datos financieros y de mercado desde Yahoo Finance. Con yfinance, puedes acceder a una amplia variedad de datos financieros, como precios de acciones, datos históricos, información sobre empresas, divisas, índices y más.
 ```python
 import yfinance
 from bs4 import BeautifulSoup
@@ -148,11 +150,11 @@ def limpieza_datos(df_bitcoins: pandas) -> tuple:
 ```
 ### Data Original
 
-<img src="https://github.com/pabloing93/Trading-Robot/blob/dev/dara_original.jpg" alt="Gráfico Data Original">
+<img src="https://github.com/pabloing93/Trading-Robot/blob/master/dara_original.png" alt="Gráfico Data Original">
 
 ### Data Limpio
 
-<img src="https://github.com/pabloing93/Trading-Robot/blob/dev/data_limpio.jpg" alt="Gráfico Data Limpio">
+<img src="https://github.com/pabloing93/Trading-Robot/blob/master/data_limpio.png" alt="Gráfico Data Limpio">
 
 
 En resumen, este código se encarga de asegurarse de que los datos relacionados con el precio de Bitcoin sean precisos y útiles para futuros análisis. Esto implica eliminar datos duplicados, nulos e inusuales, y calcular el precio promedio después de realizar estas limpiezas.
@@ -277,5 +279,5 @@ while(True):
   cont = cont + 1
   time.sleep(1)
 ```
-<img src="https://github.com/pabloing93/Trading-Robot/blob/dev/visualizacion_bitcoin.png" alt="Gráfico de ejemplo">
+<img src="https://github.com/pabloing93/Trading-Robot/blob/master/visualizacion_bitcoin.png" alt="Gráfico de ejemplo">
 
