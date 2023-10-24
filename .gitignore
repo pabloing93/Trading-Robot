@@ -1,4 +1,5 @@
 #Ingnoring local folder
+.ipynb_checkpoints/
 __pycache__/
 my_tests.py
 alquiler.csv
