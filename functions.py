@@ -4,11 +4,6 @@ import requests
 from global_data import user_agent
 import pandas
 import matplotlib.pyplot as plt
-import os
-
-def continues():
-  input('Presione ENTER para continuar')
-  os.system('powershell clear-host')
 
 #Getting Yahoo! Finance Bitcoin History Data
 def importar_base_bitcoin():
@@ -72,36 +67,27 @@ def limpieza_datos(df_bitcoins: pandas.DataFrame) -> tuple:
     plt.title(title)
     plt.boxplot(dataframe['Close'], vert=False)
     plt.show()
-  
   # Hago una copia del dataframe original
   dataframe = df_bitcoins.copy()
-
   # Eliminar duplicados en el índice
   dataframe = dataframe[~dataframe.index.duplicated(keep='first')]
-  
   # Buscar valores nulos en la columna "Close" y eliminarlos
   dataframe.dropna(subset=['Close'], inplace=True)
-  
   # Verificar que todos los registros tengan un Volume de transacción mayor a 0
   dataframe = dataframe[dataframe['Volume'] > 0]
-  
   # Identificar y eliminar outliers en la columna "Close" usando un boxplot
-  
   #Obtengo los valores de Close que se encuentren entre Q1 y Q3
   Q1 = dataframe['Close'].quantile(0.25)
   Q3 = dataframe['Close'].quantile(0.75)
   dataframe = dataframe[(dataframe['Close'] >= Q1) & (dataframe['Close'] <= Q3)]
-
   # Calcular el precio promedio (Close) de esta selección
   media_bitcoin = dataframe['Close'].mean()
   return media_bitcoin
 
 def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str:
-
   #Defino los casos de decisiones
   case_1 = (current_price >= mean_price) & (tendencie == 'baja')
   case_2 = (current_price < mean_price) & (tendencie == 'alta')
-
   if (case_1):
     decision = 'Vender'
   elif (case_2):
@@ -110,8 +96,7 @@ def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str
     decision = 'Esperar'
   return decision 
 
-def visualizacion(df_bitcoin: pandas, current_price: float, mean: float, decision: str):
-
+def visualizacion(df_bitcoin: pandas.DataFrame, current_price: float, mean: float, decision: str):
   #Hago una copia del DF original
   dataframe = df_bitcoin.copy()
   #Creo una columna nueva y cargo el valor de la media
