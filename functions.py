@@ -4,6 +4,11 @@ import requests
 from global_data import user_agent
 import pandas
 import matplotlib.pyplot as plt
+import os
+
+def continues():
+  input('Presione ENTER para continuar')
+  os.system('powershell clear-host')
 
 #Getting Yahoo! Finance Bitcoin History Data
 def importar_base_bitcoin():
@@ -61,8 +66,7 @@ def extraer_tendencias(simbol: str) -> tuple:
 
   return ( price, tendencie )
 
-def limpieza_datos(df_bitcoins: pandas) -> tuple:
-
+def limpieza_datos(df_bitcoins: pandas.DataFrame) -> tuple:
   def draw_boxplot(title: str, dataframe: pandas):
     plt.figure(figsize=(8, 6))
     plt.title(title)
@@ -82,21 +86,18 @@ def limpieza_datos(df_bitcoins: pandas) -> tuple:
   dataframe = dataframe[dataframe['Volume'] > 0]
   
   # Identificar y eliminar outliers en la columna "Close" usando un boxplot
-  # draw_boxplot('Boxplot de la columna "Close"', dataframe) #Método para graficar el boxplot
   
   #Obtengo los valores de Close que se encuentren entre Q1 y Q3
   Q1 = dataframe['Close'].quantile(0.25)
   Q3 = dataframe['Close'].quantile(0.75)
   dataframe = dataframe[(dataframe['Close'] >= Q1) & (dataframe['Close'] <= Q3)]
-  
-  # draw_boxplot('Boxplot actualizado', dataframe) #Método para graficar el boxplot
-  
+
   # Calcular el precio promedio (Close) de esta selección
   media_bitcoin = dataframe['Close'].mean()
-
   return media_bitcoin
 
 def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str:
+
   #Defino los casos de decisiones
   case_1 = (current_price >= mean_price) & (tendencie == 'baja')
   case_2 = (current_price < mean_price) & (tendencie == 'alta')
@@ -107,10 +108,10 @@ def tomar_desiciones(current_price: int, mean_price: int, tendencie: str) -> str
     decision = 'Comprar'
   else:
     decision = 'Esperar'
-
   return decision 
 
 def visualizacion(df_bitcoin: pandas, current_price: float, mean: float, decision: str):
+
   #Hago una copia del DF original
   dataframe = df_bitcoin.copy()
   #Creo una columna nueva y cargo el valor de la media
@@ -141,7 +142,7 @@ def visualizacion(df_bitcoin: pandas, current_price: float, mean: float, decisio
       horizontalalignment = 'center',
       xy=(current_date, current_price), 
       arrowprops={'facecolor': 'red'},
-      xytext=(current_date, current_price+150)
+      xytext=(current_date, current_price+500)
     )
   graph.legend(
     [f'Bitcoin Price: {round(current_price, 2)}', f'Mean: {round(mean, 2)}'], 
