@@ -1,14 +1,24 @@
 import yfinance
 from bs4 import BeautifulSoup
 import requests
-from global_data import user_agent
+from global_data import USER_AGENT
 import pandas
 import matplotlib.pyplot as plt
+
+
+def get_history():
+  try:
+    return pandas.read_csv('decision_history.csv', sep=';')
+  except:
+    # print(ValueError)
+    new_csv = pandas.DataFrame(columns=['Datetime', 'Price', 'Decision'])
+    new_csv.to_csv('decision_history.csv', sep=';')
+    return get_history()
 
 #Getting Yahoo! Finance Bitcoin History Data
 def importar_base_bitcoin():
   bitcoin = yfinance.Ticker("BTC-USD")
-  df_bitcoin = bitcoin.history(period="7d", interval="5m")
+  df_bitcoin = bitcoin.history(period="7d", interval="1m")
   return df_bitcoin
 
 #Getting tendencies from CoinMarket
@@ -40,7 +50,7 @@ def extraer_tendencias(simbol: str) -> tuple:
           return list(tr)
   
   #1) Obtengo el html de la web
-  headers = { "User-Agent": user_agent }
+  headers = { "User-Agent": USER_AGENT }
   url = "https://coinmarketcap.com/"
   request = requests.get(url, headers)
   web_content = BeautifulSoup(request.content, features="lxml")
@@ -134,3 +144,6 @@ def visualizacion(df_bitcoin: pandas.DataFrame, current_price: float, mean: floa
     loc='upper left',
     title=f'Recomendacion: {decision}')
   plt.show()
+
+def save_history(history_df: pandas.DataFrame):
+  history_df.to_csv('decision_history.csv', sep=';', index=False)
