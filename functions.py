@@ -6,14 +6,14 @@ import pandas
 import matplotlib.pyplot as plt
 
 
-def get_history():
+def get_history(file_name):
   try:
-    return pandas.read_csv('decision_history.csv', sep=';')
+    return pandas.read_csv(f'{file_name}.csv', sep=';')
   except:
     # print(ValueError)
     new_csv = pandas.DataFrame(columns=['Datetime', 'Price', 'Decision'])
-    new_csv.to_csv('decision_history.csv', sep=';')
-    return get_history()
+    new_csv.to_csv(f'{file_name}.csv', sep=';')
+    return get_history(file_name)
 
 #Getting Yahoo! Finance Bitcoin History Data
 def importar_base_bitcoin():
@@ -145,5 +145,19 @@ def visualizacion(df_bitcoin: pandas.DataFrame, current_price: float, mean: floa
     title=f'Recomendacion: {decision}')
   plt.show()
 
-def save_history(history_df: pandas.DataFrame):
-  history_df.to_csv('decision_history.csv', sep=';', index=False)
+def add_record(record: dict, history: pandas.DataFrame):
+  #1) convierto el registro a un dataframe
+  df_record = pandas.DataFrame([record])
+  #2) Agrego el registro al historial de decisiones
+  history = pandas.concat([history, df_record], ignore_index=True)
+  print(history)
+  #3) Evalúo si se cumple el criterio para almacenar como relevante (aqui despues se ajusta)
+  # relevant_history = pandas.concat([relevant_history, df_record], ignore_index=True)
+  # criterio = (record['Decision'] != 'Esperar')
+  # if (criterio):
+
+  # print(relevant_history)
+
+
+def save_history(df: pandas.DataFrame, file_name):
+  df.to_csv(f'{file_name}.csv', sep=';', index=False)
