@@ -6,33 +6,6 @@ history = get_history('decision_history')
 relevant_history = get_history('relevant_history')
 count = 0
 
-# records = [
-#   {'Datetime':'2023-11-06 23:00:00+0000', 'Price': 35052.68, 'Decision': 'Comprar'},
-#   {'Datetime':'2023-11-06 00:00:00+0000', 'Price': 35052.68, 'Decision': 'Comprar'},
-#   {'Datetime':'2023-11-06 00:00:00+0000', 'Price': 35052.68, 'Decision': 'Comprar'},
-#   {'Datetime':'2023-11-06 23:00:00+0000', 'Price': 35052.68, 'Decision': 'Vender'},
-#   {'Datetime':'2023-11-06 00:00:00+0000', 'Price': 35052.68, 'Decision': 'Esperar'},
-#   {'Datetime':'2023-11-06 00:00:00+0000', 'Price': 35052.68, 'Decision': 'Esperar'},
-#   {'Datetime':'2023-11-06 00:00:00+0000', 'Price': 35052.68, 'Decision': 'Esperar'},
-#   {'Datetime':'2023-11-06 00:00:00+0000', 'Price': 35052.68, 'Decision': 'Esperar'},
-#   {'Datetime':'2023-11-06 00:00:00+0000', 'Price': 35052.68, 'Decision': 'Vender'},
-#   {'Datetime':'2023-11-06 23:00:00+0000', 'Price': 35052.68, 'Decision': 'Comprar'},
-#   {'Datetime':'2023-11-06 00:00:00+0000', 'Price': 35052.68, 'Decision': 'Comprar'}
-# ]
-
-# for record in records:
-#   print(record)
-#   df_record = pandas.DataFrame([record])
-#   history = pandas.concat([history, df_record], ignore_index=True)
-#   criterio = (record['Decision'] != 'Esperar') & (record['Decision'] != relevant_history.iloc[-1]['Decision'])
-#   if (criterio):
-#     relevant_history = pandas.concat([relevant_history, df_record], ignore_index=True)
-
-# print('Terminó bucle')
-# save_history(history, 'decision_history')
-# save_history(relevant_history, 'relevant_history')
-
-
 
 while(count <= 30):
   # Execute the bot decisions
