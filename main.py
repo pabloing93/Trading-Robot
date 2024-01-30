@@ -6,6 +6,7 @@ history = get_history('decision_history')
 relevant_history = get_history('relevant_history')
 count = 0
 
+#Optimizar el bot para no consultar cada rato a la API de Bitcoin
 
 while(count <= 30):
   # Execute the bot decisions
